@@ -1,0 +1,83 @@
+<script>
+        function Deck() {
+                this.cards = [];
+                this.count = function() {
+                        return this.cards.length;
+                }
+                this.init = function() {
+                        for (s = 1; s <= 4; s++) {
+                                for (r = 1; r <= 13; r++) {
+                                        this.cards.push(new Card(r, s));
+                        //start a loop of suits, s
+                        //start loop of ranks, r
+
+                                }
+                        }
+                        this.shuffle();
+                }
+                this.shuffle = function() {
+                        //first time , as long as, each time when i'm done
+                        for (i = this.count()-1; i >= 1; i--) {
+                        //http://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+                                random = Math.floor(Math.random() * i);
+                                var temp = this.cards[i];
+                                this.cards[i] = this.cards[random];
+                                this.cards[random] = temp;
+                                //http://en.wikipedia.org/wiki/Swap_(computer_science)#Using_a_temporary_variable
+
+                        }
+
+                }
+
+        }
+        function Card(rank, suit) {
+                this.rank = rank;
+                this.suit = suit;
+                this.show = function() {
+                        console.log(this.rank + " of " + this.suit);
+                }
+        }
+ 
+        function Dealer (firstPlayer, secondPlayer) {
+                this.deck = new Deck();
+                this.deck.init();
+                this.firstPlayer = firstPlayer;
+                this.secondPlayer = secondPlayer;
+                this.index = 0
+                this.draw = function () {
+                                var card = this.deck.cards[this.index];
+                                this.index++;
+                                return card;
+                }             
+                this.deal = function () {
+                this.firstPlayer.cards.push(this.draw());
+                this.secondPlayer.cards.push(this.draw());
+                this.firstPlayer.cards.push(this.draw());
+                this.secondPlayer.cards.push(this.draw());
+                }
+        }
+
+ 
+        function Player (name) {
+                this.name = name;
+                this.cards = [];
+                this.greet = function () {
+                        console.log ("My name is " + this.name);
+                        console.log ("My cards are:" );
+                        for (var i = 0; i < this.cards.length; i++){
+                                this.cards[i].show();
+                        }
+                }
+        }
+var player1 = new Player ('John');
+var player2 = new Player ('Blue');
+var player3 = new Player ('Bob');
+var dealer = new Dealer (player3, player2);
+ 
+dealer.deal();
+player1.greet();
+player2.greet();
+player3.greet();
+ 
+ 
+</script>
